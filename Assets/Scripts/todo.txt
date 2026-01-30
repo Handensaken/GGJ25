@@ -1,0 +1,18 @@
+Visualisera timer 
+
+Separera HP till två armar 
+
+dismember fingrar och armar 
+
+transition till win eller lose scene
+
+spawna och shuffla kort
+
+Visa kortens uppsida på start, flippa ner 
+
+Flippa kort på selection
+
+Visa kort stort 
+
+kontrollera spelarens input 
+
