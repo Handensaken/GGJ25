@@ -6,12 +6,12 @@ dismember fingrar och armar
 
 transition till win eller lose scene o7
 
-spawna och shuffla kort
+spawna och shuffla kort o7
 
 Visa kortens uppsida på start, flippa ner 
 
-Flippa kort på selection
+Flippa kort på selection o7
 
 Visa kort stort 
 
-kontrollera spelarens input 
+kontrollera spelarens input o7

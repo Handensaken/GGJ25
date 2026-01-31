@@ -1,7 +1,8 @@
-using UnityEngine.UI;
-using UnityEngine;
+using System;
+using System.Collections;
 using Unity.VisualScripting;
-
+using UnityEngine;
+using UnityEngine.UI;
 public class Card : MonoBehaviour
 {
     [SerializeField] Image image;
@@ -32,10 +33,9 @@ public class Card : MonoBehaviour
     };
     private bool selected;
 
-    private Vector3 defaultPosition;
+    public Vector3 defaultPosition;
     void Start()
     {
-        defaultPosition = transform.position;
     }
     void SetColor()
     {
@@ -44,15 +44,37 @@ public class Card : MonoBehaviour
     }
     public void UpdateSelection(bool b)
     {
+        GetComponent<Animator>().SetTrigger("Flip");
+        if (UnityEngine.Random.Range(0, 2) == 1)
+        {
+            GetComponent<Animator>().SetBool("Rev", true);
+        }
+        else
+        {
+            GetComponent<Animator>().SetBool("Rev", false);
+        }
         selected = b;
 
         if (selected)
         {
-            transform.position = defaultPosition + new Vector3(0, 0.5f, 0);
+            StartCoroutine(MoveLerp(0.25f, 100, defaultPosition, defaultPosition + new Vector3(0, 0.5f, 0), 0));
+            // transform.position = defaultPosition + new Vector3(0, 0.5f, 0);
         }
         else
         {
-            transform.position = defaultPosition;
+            StartCoroutine(MoveLerp(0.25f, 100, defaultPosition + new Vector3(0, 0.5f, 0), defaultPosition, 0.5f));
+            // transform.position = defaultPosition;
+        }
+    }
+
+    IEnumerator MoveLerp(float timeInSeconds, float timeStep, Vector3 start, Vector3 end, float delay)
+    {
+        //yield return new WaitForSeconds(delay);
+        for (float i = 0; i <= timeInSeconds * timeStep; i++)
+        {
+            float t = i / (timeInSeconds * timeStep);
+            transform.position = Vector3.Lerp(start, end, t);
+            yield return new WaitForSeconds(1 / timeStep);
         }
     }
 }

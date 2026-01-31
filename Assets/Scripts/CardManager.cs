@@ -28,7 +28,7 @@ public class CardManager : MonoBehaviour
         {
             for (int j = 0; j < rows; j++)
             {
-                GameObject g = Instantiate(CardPrefab, transform.position, quaternion.identity);
+                GameObject g = Instantiate(CardPrefab, transform.position, CardPrefab.transform.rotation);
                 cardTransforms[i, j] = g.transform;
                 cardTransforms[i, j].parent = transform;
                 if (idCounter >= 2)
@@ -52,6 +52,7 @@ public class CardManager : MonoBehaviour
             {
                 Vector3 offset = new Vector3(i * horizontalCardOffset, 0, j * verticalCardOffset);
                 cardTransforms[i, j].position += offset;
+                cardTransforms[i, j].GetComponent<Card>().defaultPosition = cardTransforms[i, j].position;
             }
         }
     }

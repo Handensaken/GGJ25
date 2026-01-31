@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     [Tooltip("Set the standard timer value for picking two cards. Changes what number to count down from in seconds")]
     private float CardTimerValue;
     float CardPickTimer;
-    bool timerShouldRun = true;
+    bool timerShouldRun = false;
     [SerializeField]
     private Image timerImage;
     //====================================================
@@ -32,11 +32,33 @@ public class GameManager : MonoBehaviour
         CardCount = CardsParent.childCount;
         CardPickTimer = CardTimerValue;
         GameEventManager.instance.OnGameEnd += GameEnd;
+        StartCoroutine(GameWaitTimer(5, FlipCardsOnStart));
+        StartCoroutine(GameWaitTimer(6, StartGame));
+        StartCoroutine(GameWaitTimer(1, FlipCardsOnStart));
+
     }
     void OnDisable()
     {
         GameEventManager.instance.OnGameEnd -= GameEnd;
     }
+    bool startFlipped = false;
+    void FlipCardsOnStart()
+    {
+        startFlipped = !startFlipped;
+        foreach (Transform child in CardsParent)
+        {
+            // child.GetComponent<Animator>().applyRootMotion = true;
+            float f = UnityEngine.Random.Range(0.0f, 0.4f);
+            StartCoroutine(GameWaitTimerBool(f, child.GetComponent<Card>().UpdateSelection, startFlipped));
+
+        }
+    }
+    void StartGame()
+    {
+        timerShouldRun = true;
+        GameEventManager.instance.SetPlayerInputState(true);
+    }
+
 
     void Update()
     {
@@ -162,6 +184,13 @@ public class GameManager : MonoBehaviour
         //suspend player input
         yield return new WaitForSeconds(t);
         a();
+        //resume player input
+    }
+    private IEnumerator GameWaitTimerBool(float t, Action<bool> a, bool b)
+    {
+        //suspend player input
+        yield return new WaitForSeconds(t);
+        a(b);
         //resume player input
     }
     private void ResumePlayerInput()

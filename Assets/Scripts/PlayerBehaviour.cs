@@ -20,6 +20,7 @@ public class PlayerBehaviour : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         GameEventManager.instance.OnPlayerDamaged += PlayerDamage;
         GameEventManager.instance.OnSetPlayerInputState += SetPlayerInput;
+        SetPlayerInput(false);
     }
     void OnDisable()
     {
@@ -41,7 +42,6 @@ public class PlayerBehaviour : MonoBehaviour
             if (hit.transform != cardHovered)
             {
                 cardHovered = hit.transform;
-
             }
         }
         else
@@ -87,9 +87,14 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (activeState)
         {
-            playerMap.Enable();
+            playerMap.FindAction("Interact").Enable();
+            //  playerMap.Enable();
         }
-        else playerMap.Disable();
+        else
+        {
+            playerMap.FindAction("Interact").Disable();
+            //playerMap.Disable();
+        }
     }
 
 }
