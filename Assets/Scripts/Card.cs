@@ -42,6 +42,7 @@ public class Card : MonoBehaviour
         image.color = colors[cardID];
 
     }
+    [SerializeField] float yOffset = 0.1f;
     public void UpdateSelection(bool b)
     {
         GetComponent<Animator>().SetTrigger("Flip");
@@ -57,12 +58,12 @@ public class Card : MonoBehaviour
 
         if (selected)
         {
-            StartCoroutine(MoveLerp(0.25f, 100, defaultPosition, defaultPosition + new Vector3(0, 0.5f, 0), 0));
+            StartCoroutine(MoveLerp(0.25f, 100, defaultPosition, defaultPosition + new Vector3(0, yOffset, 0), 0));
             // transform.position = defaultPosition + new Vector3(0, 0.5f, 0);
         }
         else
         {
-            StartCoroutine(MoveLerp(0.25f, 100, defaultPosition + new Vector3(0, 0.5f, 0), defaultPosition, 0.5f));
+            StartCoroutine(MoveLerp(0.25f, 100, defaultPosition + new Vector3(0, yOffset, 0), defaultPosition, 0.5f));
             // transform.position = defaultPosition;
         }
     }
