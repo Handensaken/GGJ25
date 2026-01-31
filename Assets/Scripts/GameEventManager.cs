@@ -16,4 +16,30 @@ public class GameEventManager : MonoBehaviour
             OnPlayerDamaged(i);
         }
     }
+
+    public event Action<bool> OnGameEnd;
+    public void GameEnd(bool won)
+    {
+        if (OnGameEnd != null)
+        {
+            OnGameEnd(won);
+        }
+    }
+
+    public event Action<string> OnSceneTransition;
+    public void SceneTransition(string s)
+    {
+        if (OnSceneTransition != null)
+        {
+            OnSceneTransition(s);
+        }
+    }
+    public event Action<bool> OnSetPlayerInputState;
+    public void SetPlayerInputState(bool state)
+    {
+        if (OnSetPlayerInputState != null)
+        {
+            OnSetPlayerInputState(state);
+        }
+    }
 }

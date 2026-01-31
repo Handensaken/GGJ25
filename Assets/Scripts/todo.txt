@@ -1,10 +1,10 @@
-Visualisera timer 
+Visualisera timer o7 
 
 Separera HP till två armar 
 
 dismember fingrar och armar 
 
-transition till win eller lose scene
+transition till win eller lose scene o7
 
 spawna och shuffla kort
 
@@ -15,4 +15,3 @@ Flippa kort på selection
 Visa kort stort 
 
 kontrollera spelarens input 
-
