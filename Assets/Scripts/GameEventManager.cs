@@ -42,4 +42,12 @@ public class GameEventManager : MonoBehaviour
             OnSetPlayerInputState(state);
         }
     }
+    public event Action<Arm> OnCleaverChopCalled;
+    public void CleaverChopCalled(Arm a)
+    {
+        if (OnCleaverChopCalled != null)
+        {
+            OnCleaverChopCalled(a);
+        }
+    }
 }

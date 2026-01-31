@@ -8,7 +8,7 @@ transition till win eller lose scene o7
 
 spawna och shuffla kort o7
 
-Visa kortens uppsida på start, flippa ner 
+Visa kortens uppsida på start, flippa ner  o7
 
 Flippa kort på selection o7
 
