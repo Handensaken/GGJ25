@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.016, z: 0.28}
+  m_LocalScale: {x: 0.15, y: 0.012, z: 0.21}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 182705962599006623}
@@ -105,6 +105,7 @@ MonoBehaviour:
   image: {fileID: 6650957583261947589}
   _cardID: 0
   defaultPosition: {x: 0, y: 0, z: 0}
+  yOffset: 0.1
 --- !u!95 &2194456375830770985
 Animator:
   serializedVersion: 7
