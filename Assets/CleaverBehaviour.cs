@@ -24,7 +24,7 @@ public class CleaverBehaviour : MonoBehaviour
 
         //defaultTargetPosition = new Vector3(target.position.x, 1.154f, target.position.z);
         defaultRotation = transform.rotation;
-        defaultLocalPos = transform.localPosition;
+        defaultLocalPos = HolderObject.localPosition;
         defaultPos = transform.position;
     }
     void OnDisable()
@@ -41,20 +41,18 @@ public class CleaverBehaviour : MonoBehaviour
     }
     Vector3 startPosition;
     float side;
+    Arm currentArm;
     void Chopping(Arm arm)
     {
+        currentArm = arm;
         side = arm.side;
         targetReference = arm.targetJoint;
 
-        if (targetReference.name.Contains('F'))
-        {
-            Debug.Log("Fingie");
-            arm.armHealth--;
-        }
+
 
         //  transform.position = targetReference.position;
         startPosition = transform.position;
-        Debug.Log(targetReference);
+        //        Debug.Log(targetReference);
         animator.SetBool("Moving", true);
 
 
@@ -74,9 +72,22 @@ public class CleaverBehaviour : MonoBehaviour
             target.position = currentTargetPosition;
         }*/
         //transform.LookAt(target);
+        //HolderObject.localPosition = HolderObject.localPosition + new Vector3(1, 0, 0) * Time.deltaTime;
     }
+    [SerializeField] Transform HolderObject;
     void CleaverRecover()
     {
+        currentArm.Dismember();
+        if (targetReference.name.Contains('F') || currentArm.armHealth == 1)
+        {
+            currentArm.armHealth--;
+            if (currentArm.armHealth <= 0) currentArm.dead = true;
+        }
+        else
+        {
+            currentArm.armHealth = 0;
+            currentArm.dead = true;           
+        }
         StartCoroutine(InterpolateCleaverRecovery(0.5f, 100));
     }
     void ResetCleaver()
@@ -92,14 +103,14 @@ public class CleaverBehaviour : MonoBehaviour
     IEnumerator InterpolatePosition(float timeInSeconds, float timeStep)
     {
         //  Vector3 localOffsetPos = transform.localPosition + new Vector3(0, 0, 1f * side);
-        float f = 0.5f * side;
+        float f = 0.01f * side;
         for (float i = 0; i <= timeInSeconds * timeStep; i++)
         {
             float t = i / (timeInSeconds * timeStep);
             transform.position = Vector3.Lerp(startPosition, targetReference.position, t);
             transform.position = new Vector3(transform.position.x, startPosition.y, transform.position.z);
             float f2 = Mathf.Lerp(0, f, t);
-            transform.localPosition = transform.localPosition + new Vector3(f2, 0, 0);
+            HolderObject.localPosition = HolderObject.localPosition + new Vector3(0, 0, f2);
             yield return new WaitForSeconds(1 / timeStep);
         }
         animator.SetTrigger("Chop");
@@ -107,15 +118,14 @@ public class CleaverBehaviour : MonoBehaviour
     }
     IEnumerator InterpolareCleaverReset(float timeInSeconds, float timeStep)
     {
-        Vector3 localPos = transform.localPosition;
+        Vector3 localPos = HolderObject.localPosition;
         Vector3 pos = transform.position;
         //  Vector3 localOffsetPos = transform.localPosition + new Vector3(0, 0, 1f * side);
-        float f = 0.4f * side;
         for (float i = 0; i <= timeInSeconds * timeStep; i++)
         {
             float t = i / (timeInSeconds * timeStep);
             transform.position = Vector3.Lerp(pos, defaultPos, t);
-            transform.localPosition = Vector3.Lerp(localPos, defaultLocalPos, t);
+            HolderObject.localPosition = Vector3.Lerp(localPos, defaultLocalPos, t);
             yield return new WaitForSeconds(1 / timeStep);
         }
         animator.SetBool("Moving", false);
@@ -123,14 +133,13 @@ public class CleaverBehaviour : MonoBehaviour
     }
     IEnumerator InterpolateCleaverRecovery(float timeInSeconds, float timeStep)
     {
-        Vector3 localPos = transform.localPosition;
         //  Vector3 localOffsetPos = transform.localPosition + new Vector3(0, 0, 1f * side);
         float f = 0.01f * side;
         for (float i = 0; i <= timeInSeconds * timeStep; i++)
         {
             float t = i / (timeInSeconds * timeStep);
             float f2 = Mathf.Lerp(0, f, t);
-            transform.localPosition = transform.localPosition + new Vector3(f2, Mathf.Abs(f2), 0);
+            HolderObject.localPosition = HolderObject.localPosition + new Vector3(0, Mathf.Abs(f2), f2);
             yield return new WaitForSeconds(1 / timeStep);
         }
         //currentTargetPosition = targetReference.position;

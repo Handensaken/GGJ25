@@ -28,6 +28,7 @@ public class PlayerBehaviour : MonoBehaviour
         GameEventManager.instance.OnPlayerDamaged += PlayerDamage;
         GameEventManager.instance.OnSetPlayerInputState += SetPlayerInput;
         SetPlayerInput(false);
+        playerMap.Enable();
     }
     void OnDisable()
     {
@@ -109,15 +110,18 @@ public class PlayerBehaviour : MonoBehaviour
             }
             health -= armChoice.armHealth;
             armChoice.armHealth = 0;
-            armChoice.dead = true;
+            //  armChoice.dead = true;
 
             //  GameEventManager.instance.CleaverChopCalled(armChoice);
         }
-        StartCoroutine(gameManager.GameWaitTimerArm(0.75f, GameEventManager.instance.CleaverChopCalled, armChoice));
-        if (armChoice.armHealth <= 0)
+        if (armChoice != null)
         {
-            armChoice.armHealth = 0;
-            armChoice.dead = true;
+            StartCoroutine(gameManager.GameWaitTimerArm(0.75f, GameEventManager.instance.CleaverChopCalled, armChoice));
+            if (armChoice.armHealth <= 0)
+            {
+                armChoice.armHealth = 0;
+                armChoice.dead = true;
+            }
         }
         mouseSensitivity = (float)health / 12;
         if (health == 0) mouseSensitivity = 0.025f;
@@ -125,7 +129,8 @@ public class PlayerBehaviour : MonoBehaviour
         {
             GameEventManager.instance.CleaverHeadChop(transform);
             GameEventManager.instance.GameEnd(false);
-            //Debug.Log("PlayerDead");
+            Debug.Log("PlayerDead");
+            playerMap.Disable();
         }
     }
     float mouseSensitivity = 1f;

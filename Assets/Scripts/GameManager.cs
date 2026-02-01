@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-       // Application.targetFrameRate = 60;
+        // Application.targetFrameRate = 60;
         CardCount = CardsParent.childCount;
         CardPickTimer = CardTimerValue;
         GameEventManager.instance.OnGameEnd += GameEnd;
@@ -75,7 +75,8 @@ public class GameManager : MonoBehaviour
                 GameEventManager.instance.SetPlayerInputState(false);
                 timerShouldRun = false;
                 StartCoroutine(RefillTimer(1, 100));
-             //   StartCoroutine(GameWaitTimer(2, EnableTimer));
+                if (Card01 != null) Card01.UpdateSelection(false);
+                //   StartCoroutine(GameWaitTimer(2, EnableTimer));
                 StartCoroutine(GameWaitTimer(0, DoTimerDamage));
             }
         }

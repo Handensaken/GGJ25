@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 public class GameSceneManager : MonoBehaviour
@@ -19,6 +20,11 @@ public class GameSceneManager : MonoBehaviour
     }
     void TransitionScene(string s)
     {
+        StartCoroutine(LoadDelay(s));
+    }
+    IEnumerator LoadDelay(string s)
+    {
+        yield return new WaitForSeconds(2);
         SceneManager.LoadScene(s);
     }
 }

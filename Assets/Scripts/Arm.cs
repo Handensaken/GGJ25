@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UIElements;
+using System.Collections.Generic;
 
 
 public class Arm : MonoBehaviour
@@ -12,6 +13,8 @@ public class Arm : MonoBehaviour
     [SerializeField] Transform Point05;
     [SerializeField] Transform Point06;
     private Transform[] dismemberPoints;
+
+    public List<GameObject> BodyParts;
     public int armHealth = 6;
     public bool dead = false;
     public float side;
@@ -39,18 +42,42 @@ public class Arm : MonoBehaviour
             Point06,
         };
         GameEventManager.instance.OnPlayerDamaged += PositionHand;
-
+        GameEventManager.instance.OnResetCleaver += ResetHandPos;
         //targetJoint = dismemberPoints[5 - armHealth];
     }
-
+    public void Dismember()
+    {
+        //   Debug.Log(BodyParts.Count);
+        GameObject g = dead ? BodyParts[BodyParts.Count - 1] : BodyParts[6 - armHealth];
+        g.transform.parent = null;
+        MeshCollider mC = g.AddComponent<MeshCollider>();
+        Rigidbody rb = g.AddComponent<Rigidbody>();
+        rb.useGravity = true;
+        rb.AddForce(Vector3.forward * -0.5f, ForceMode.Impulse);
+        mC.convex = true;
+    }
     void OnDisable()
     {
         GameEventManager.instance.OnPlayerDamaged -= PositionHand;
-        
+        GameEventManager.instance.OnResetCleaver -= ResetHandPos;
+
+    }
+    bool hasMovedDead = false;
+    private void ResetHandPos()
+    {
+        if (!hasMovedDead)
+        {
+            StartCoroutine(InterpolatePosition(0.5f, 100, ChoppingPos.position, defaultPosition));
+            if (dead) hasMovedDead = true;
+        }
     }
     private void PositionHand(int trashValue)
     {
-        StartCoroutine(InterpolatePosition(0.5f, 100, defaultPosition, ChoppingPos.position));
+        if (!hasMovedDead)
+        {
+            StartCoroutine(InterpolatePosition(0.5f, 100, defaultPosition, ChoppingPos.position));
+
+        }
     }
 
     IEnumerator InterpolatePosition(float timeInSeconds, float timeStep, Vector3 startPos, Vector3 endPos)
@@ -63,7 +90,7 @@ public class Arm : MonoBehaviour
             transform.position = Vector3.Lerp(startPos, endPos, t);
             yield return new WaitForSeconds(1 / timeStep);
         }
-        
+
         //currentTargetPosition = targetReference.position;
     }
     IEnumerator InterpolateRotation(float timeInSeconds, float timeStep, Quaternion targetRot)
