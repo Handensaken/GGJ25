@@ -30,4 +30,17 @@ public class AnimationEventHandler : MonoBehaviour
     {
         AudioManager.Instance.Play("CleaverThwack");
     }
+    public void PlayFingie()
+    {
+        AudioManager.Instance.Play("CuttingFingers");
+    }
+    public void Shake(int i)
+    {
+        bool b = false;
+        if(i == 1)
+        {
+            b = true;
+        }
+        GameEventManager.instance.ScreenShake(b);
+    }
 }

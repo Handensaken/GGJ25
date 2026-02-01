@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class CameraBehaviour : MonoBehaviour
 {
@@ -8,10 +9,13 @@ public class CameraBehaviour : MonoBehaviour
     {
         a = GetComponent<Animator>();
         GameEventManager.instance.OnRollHead += Roll;
+        GameEventManager.instance.OnScreenShake += Fuck;
+
     }
     void OnDisable()
     {
         GameEventManager.instance.OnRollHead -= Roll;
+        GameEventManager.instance.OnScreenShake -= Fuck;
 
     }
     void Roll()
@@ -22,5 +26,17 @@ public class CameraBehaviour : MonoBehaviour
     void Update()
     {
 
+    }
+    private void Fuck(bool large)
+    {
+        if (large)
+        {
+            a.SetTrigger("ShakeLarge");
+        }
+        else
+        {
+            a.SetTrigger("ShakeSmall");
+
+        }
     }
 }

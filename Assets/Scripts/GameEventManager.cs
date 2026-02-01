@@ -99,5 +99,12 @@ public class GameEventManager : MonoBehaviour
             OnRollHead();
         }
     }
-  
+  public event Action<bool> OnScreenShake;
+    public void ScreenShake(bool large)
+    {
+        if (OnScreenShake!= null)
+        {
+            OnScreenShake(large);
+        }
+    }
 }
