@@ -31,7 +31,7 @@
                     "id": "d671dc09-5d3e-4e91-88cc-af36253b75d3",
                     "path": "<Mouse>/delta",
                     "interactions": "",
-                    "processors": "InvertVector2",
+                    "processors": "InvertVector2(invertX=false,invertY=false)",
                     "groups": "",
                     "action": "Mouse",
                     "isComposite": false,

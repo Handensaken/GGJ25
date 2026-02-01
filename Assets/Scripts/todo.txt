@@ -1,17 +1,7 @@
-dismember
-
-Fix clever orientetation for all fingers
-
-Look at sound
-
-Screenshake 
-
-Blood Fix
-
-Lighting
+Blood Fx
 
 Timer texture
 
-Other juice
+Mouse Texture
 
-Hand positions
+Card Texture fix

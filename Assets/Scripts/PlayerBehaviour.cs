@@ -80,7 +80,7 @@ public class PlayerBehaviour : MonoBehaviour
         {
             if (!leftArm.dead && !rightArm.dead)
             {
-                if (UnityEngine.Random.Range(0, 1) == 1)
+                if (UnityEngine.Random.Range(0, 2) == 1)
                 {
                     armChoice = rightArm;
                     //right
