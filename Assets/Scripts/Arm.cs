@@ -50,11 +50,11 @@ public class Arm : MonoBehaviour
         //   Debug.Log(BodyParts.Count);
         GameObject g = dead ? BodyParts[BodyParts.Count - 1] : BodyParts[6 - armHealth];
         g.transform.parent = null;
-        MeshCollider mC = g.AddComponent<MeshCollider>();
+        BoxCollider mC = g.AddComponent<BoxCollider>();
         Rigidbody rb = g.AddComponent<Rigidbody>();
         rb.useGravity = true;
         rb.AddForce(Vector3.forward * -0.5f, ForceMode.Impulse);
-        mC.convex = true;
+       // mC.convex = true;
     }
     void OnDisable()
     {

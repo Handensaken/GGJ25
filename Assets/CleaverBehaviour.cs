@@ -1,5 +1,4 @@
 using System.Collections;
-using UnityEditor.UIElements;
 using UnityEngine;
 
 public class CleaverBehaviour : MonoBehaviour
@@ -61,7 +60,6 @@ public class CleaverBehaviour : MonoBehaviour
     [SerializeField] Transform HolderObject;
     void CleaverRecover()
     {
-        AudioManager.Instance.Play("CuttingFingers");
         currentArm.Dismember();
         if (targetReference.name.Contains('F') || currentArm.armHealth == 1)
         {
