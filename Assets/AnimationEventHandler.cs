@@ -18,4 +18,16 @@ public class AnimationEventHandler : MonoBehaviour
     {
         GameEventManager.instance.EnableTimer();
     }
+    public void RollHead()
+    {
+        GameEventManager.instance.RollHead();
+    }
+    public void GameEndEvent()
+    {
+        GameEventManager.instance.GameEnd(false);
+    }
+    public void PlayThwack()
+    {
+        AudioManager.Instance.Play("CleaverThwack");
+    }
 }

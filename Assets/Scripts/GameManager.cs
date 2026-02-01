@@ -169,17 +169,38 @@ public class GameManager : MonoBehaviour
         string s = won ? "Win" : "Lose";
         StopAllCoroutines();
         //Do things that happen on game end, then transition
-        StartCoroutine(GameEndTimer(5, SceneEnd, s));
+        if (won)
+        {
+            StartCoroutine(GameEndTimer(5, SceneEnd, s, 2));
+        }
+        else
+        {
+            StartCoroutine(FadeToBlack(1, 100));
+        }
     }
-    void SceneEnd(string s)
+    [SerializeField] Image fadeImage;
+    IEnumerator FadeToBlack(float timeInSeconds, float timeStep)
     {
-        GameEventManager.instance.SceneTransition(s);
+        Color c = fadeImage.color;
+        for (float i = 0; i <= timeInSeconds * timeStep; i++)
+        {
+            float t = i / (timeInSeconds * timeStep);
+            c.a = Mathf.Lerp(0, 1, t);
+            fadeImage.color = c;
+            yield return new WaitForSeconds(1 / timeStep);
+        }
+        SceneEnd("Lose", 0.5f);
     }
-    private IEnumerator GameEndTimer(float t, Action<string> a, string s)
+
+    void SceneEnd(string s, float delay)
+    {
+        GameEventManager.instance.SceneTransition(s, delay);
+    }
+    private IEnumerator GameEndTimer(float t, Action<string, float> a, string s, float delay)
     {
         //suspend player input
         yield return new WaitForSeconds(t);
-        a(s);
+        a(s, delay);
 
         //resume player input
     }

@@ -26,12 +26,12 @@ public class GameEventManager : MonoBehaviour
         }
     }
 
-    public event Action<string> OnSceneTransition;
-    public void SceneTransition(string s)
+    public event Action<string, float> OnSceneTransition;
+    public void SceneTransition(string s, float delay)
     {
         if (OnSceneTransition != null)
         {
-            OnSceneTransition(s);
+            OnSceneTransition(s, delay);
         }
     }
     public event Action<bool> OnSetPlayerInputState;
@@ -91,4 +91,13 @@ public class GameEventManager : MonoBehaviour
             OnCleaverMoveStart();
         }
     }
+    public event Action OnRollHead;
+    public void RollHead()
+    {
+        if (OnRollHead!= null)
+        {
+            OnRollHead();
+        }
+    }
+  
 }

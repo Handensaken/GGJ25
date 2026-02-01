@@ -41,6 +41,8 @@ public class PlayerBehaviour : MonoBehaviour
     private Transform cardHovered;
     // Update is called once per frame
     public Transform pointer;
+
+    [SerializeField] Transform headChopPos;
     void Update()
     {
         mousePos = pointer.transform.position;
@@ -103,10 +105,10 @@ public class PlayerBehaviour : MonoBehaviour
             else
             {
                 //This should be replaced with a special position
-                GameEventManager.instance.CleaverHeadChop(transform);
+                GameEventManager.instance.CleaverHeadChop(headChopPos);
                 Debug.Log("PlayerDead");
                 playerMap.Disable();
-                GameEventManager.instance.GameEnd(false);
+                //GameEventManager.instance.GameEnd(false);
                 return;
             }
             health -= armChoice.armHealth;
@@ -128,8 +130,8 @@ public class PlayerBehaviour : MonoBehaviour
         if (health == 0) mouseSensitivity = 0.025f;
         if (health < 0)
         {
-            GameEventManager.instance.CleaverHeadChop(transform);
-            GameEventManager.instance.GameEnd(false);
+            GameEventManager.instance.CleaverHeadChop(headChopPos);
+            //GameEventManager.instance.GameEnd(false);
             Debug.Log("PlayerDead");
             playerMap.Disable();
         }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,11 +16,12 @@ public class Card : MonoBehaviour
         set
         {
             _cardID = value;
-            image.color = colors[value];
+            image.sprite = sprites[value];
             //  SetColor();
         }
     }
 
+    public List<Sprite> sprites;
     Color[] colors =
     {
         Color.red,
@@ -45,6 +47,7 @@ public class Card : MonoBehaviour
     [SerializeField] float yOffset = 0.1f;
     public void UpdateSelection(bool b)
     {
+        AudioManager.Instance.Play("CardFlip");
         GetComponent<Animator>().SetTrigger("Flip");
         if (UnityEngine.Random.Range(0, 2) == 1)
         {
