@@ -104,7 +104,8 @@ public class PlayerBehaviour : MonoBehaviour
             {
                 //This should be replaced with a special position
                 GameEventManager.instance.CleaverHeadChop(transform);
-
+                Debug.Log("PlayerDead");
+                playerMap.Disable();
                 GameEventManager.instance.GameEnd(false);
                 return;
             }

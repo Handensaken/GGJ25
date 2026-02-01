@@ -128,11 +128,11 @@ public class GameManager : MonoBehaviour
         timerShouldRun = false;
 
         StartCoroutine(RefillTimer(1, 100));
-        //StartCoroutine(GameWaitTimer(2, EnableTimer));
 
         if (Card01.cardID == Card02.cardID)
         {
             StartCoroutine(GameWaitTimer(2, RemoveSelection));
+            StartCoroutine(GameWaitTimer(2, EnableTimer));
 
         }
         else
