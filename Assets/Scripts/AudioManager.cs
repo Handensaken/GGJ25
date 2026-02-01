@@ -37,8 +37,9 @@ public class AudioManager : MonoBehaviour
         {
             soundLookup[sound.id] = sound;
         }
+       
     }
-
+  
     public void Play(string id)
     {
         Sound s = soundLookup[id];

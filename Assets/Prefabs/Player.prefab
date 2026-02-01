@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2696183640704032392
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2834983581554859378}
+  m_Layer: 0
+  m_Name: HeadChopPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2834983581554859378
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2696183640704032392}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.04272139, y: -0.8873941, z: 0.084007934, w: 0.45127535}
+  m_LocalPosition: {x: 0.73099905, y: -0.16199979, z: -0.7170002}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7181486922608014012}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4907825667344555411
 GameObject:
   m_ObjectHideFlags: 0
@@ -26,11 +57,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4907825667344555411}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.20561253, y: 2.315624, z: -2.8983707}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2834983581554859378}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3592367242472621076
@@ -47,10 +79,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameManager: {fileID: 0}
   inputActions: {fileID: -944628639613478452, guid: 633e1fb637cd6c140bc005445ef3f971, type: 3}
+  leftArm: {fileID: 0}
+  rightArm: {fileID: 0}
   cardLayerMask:
     serializedVersion: 2
     m_Bits: 64
   pointer: {fileID: 0}
+  headChopPos: {fileID: 2834983581554859378}
 --- !u!114 &7202014624920899828
 MonoBehaviour:
   m_ObjectHideFlags: 0

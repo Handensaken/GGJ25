@@ -18,13 +18,13 @@ public class GameSceneManager : MonoBehaviour
     {
 
     }
-    void TransitionScene(string s)
+    void TransitionScene(string s, float delay)
     {
-        StartCoroutine(LoadDelay(s));
+        StartCoroutine(LoadDelay(s, delay));
     }
-    IEnumerator LoadDelay(string s)
+    IEnumerator LoadDelay(string s, float delay)
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(delay);
         SceneManager.LoadScene(s);
     }
 }

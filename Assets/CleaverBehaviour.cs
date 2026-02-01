@@ -35,8 +35,12 @@ public class CleaverBehaviour : MonoBehaviour
         GameEventManager.instance.OnRecoverCleaver -= CleaverRecover;
         GameEventManager.instance.OnCleaverMoveStart -= StartMoving;
     }
+
     void HeadChop(Transform t)
     {
+        currentArm = null;
+        animator.SetBool("Moving", true);
+        targetReference = t;
         //Set HeadChop animation
     }
     Vector3 startPosition;
@@ -49,35 +53,15 @@ public class CleaverBehaviour : MonoBehaviour
         targetReference = arm.targetJoint;
 
 
-
-        //  transform.position = targetReference.position;
         startPosition = transform.position;
-        //        Debug.Log(targetReference);
+
         animator.SetBool("Moving", true);
-
-
-        //  transform.localPosition = transform.localPosition + new Vector3(0, 0, 0.5f * arm.side);
-
-        //  target.position = targetReference.position;
-        //Interpolate position
-        //Play movement animation
-
-        //Call animation when in position
     }
-    // Update is called once per frame
-    
-    void Update()
-    {
-        /*if (!interpolating)
-        {
-            target.position = currentTargetPosition;
-        }*/
-        //transform.LookAt(target);
-        //HolderObject.localPosition = HolderObject.localPosition + new Vector3(1, 0, 0) * Time.deltaTime;
-    }
+
     [SerializeField] Transform HolderObject;
     void CleaverRecover()
     {
+        AudioManager.Instance.Play("CuttingFingers");
         currentArm.Dismember();
         if (targetReference.name.Contains('F') || currentArm.armHealth == 1)
         {
@@ -87,7 +71,7 @@ public class CleaverBehaviour : MonoBehaviour
         else
         {
             currentArm.armHealth = 0;
-            currentArm.dead = true;           
+            currentArm.dead = true;
         }
         StartCoroutine(InterpolateCleaverRecovery(0.5f, 100));
     }
@@ -98,9 +82,37 @@ public class CleaverBehaviour : MonoBehaviour
     }
     void StartMoving()
     {
-        StartCoroutine(InterpolatePosition(1, 100));
-        StartCoroutine(InterpolateRotation(1, 100, targetReference.rotation));
+
+        if (currentArm == null)
+        {
+            StartCoroutine(InterpolateHeadPosition(0.5f, 100));
+
+        }
+        else
+        {
+
+            StartCoroutine(InterpolatePosition(1, 100));
+            StartCoroutine(InterpolateRotation(1, 100, targetReference.rotation));
+        }
     }
+
+    IEnumerator InterpolateHeadPosition(float timeInSeconds, float timeStep)
+    {
+        //  Vector3 localOffsetPos = transform.localPosition + new Vector3(0, 0, 1f * side);
+        //  float f = 0.01f * side;
+        for (float i = 0; i <= timeInSeconds * timeStep; i++)
+        {
+            float t = i / (timeInSeconds * timeStep);
+            transform.position = Vector3.Lerp(startPosition, targetReference.position, t);
+            //   transform.position = new Vector3(transform.position.x, startPosition.y, transform.position.z);
+            //   float f2 = Mathf.Lerp(0, f, t);
+            // HolderObject.localPosition = HolderObject.localPosition + new Vector3(0, 0, f2);
+            yield return new WaitForSeconds(1 / timeStep);
+        }
+        animator.SetTrigger("Head");
+        //currentTargetPosition = targetReference.position;
+    }
+
     IEnumerator InterpolatePosition(float timeInSeconds, float timeStep)
     {
         //  Vector3 localOffsetPos = transform.localPosition + new Vector3(0, 0, 1f * side);
