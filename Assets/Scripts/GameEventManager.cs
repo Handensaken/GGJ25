@@ -50,4 +50,45 @@ public class GameEventManager : MonoBehaviour
             OnCleaverChopCalled(a);
         }
     }
+    public event Action<Transform> OnCleaverHeadChop;
+    public void CleaverHeadChop(Transform t)
+    {
+        if (OnCleaverHeadChop != null)
+        {
+            OnCleaverHeadChop(t);
+        }
+    }
+    public event Action OnEnableTimer;
+    public void EnableTimer()
+    {
+        if (OnEnableTimer != null)
+        {
+            OnEnableTimer();
+        }
+    }
+
+    public event Action OnRecoverCleaver;
+    public void RecoveCleaver()
+    {
+        if (OnRecoverCleaver != null)
+        {
+            OnRecoverCleaver();
+        }
+    }
+    public event Action OnResetCleaver;
+    public void ResetCleaver()
+    {
+        if (OnResetCleaver != null)
+        {
+            OnResetCleaver();
+        }
+    }
+    public event Action OnCleaverMoveStart;
+    public void CleaverMoveStart()
+    {
+        if (OnCleaverMoveStart!= null)
+        {
+            OnCleaverMoveStart();
+        }
+    }
 }

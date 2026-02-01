@@ -21,9 +21,9 @@ public class PlayerBehaviour : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-  
+
         playerMap = inputActions.FindActionMap("Player");
-        health = 10;
+        health = 12;
         Cursor.lockState = CursorLockMode.Locked;
         GameEventManager.instance.OnPlayerDamaged += PlayerDamage;
         GameEventManager.instance.OnSetPlayerInputState += SetPlayerInput;
@@ -58,32 +58,26 @@ public class PlayerBehaviour : MonoBehaviour
     }
     private void PlayerDamage(int damage)
     {
+        Arm armChoice = null;
         if (damage == 1)
         {
             if (!leftArm.dead)
             {
-                GameEventManager.instance.CleaverChopCalled(leftArm);
+                armChoice = leftArm;
                 //Cleaver chop event
                 //Arm -> location
-
-                leftArm.armHealth--;
-                if (leftArm.armHealth == 0) leftArm.dead = true;
             }
             else if (!rightArm.dead)
             {
-                GameEventManager.instance.CleaverChopCalled(rightArm);
-
-                rightArm.armHealth--;
-                if (rightArm.armHealth == 0) rightArm.dead = true;
+                armChoice = rightArm;
             }
             health -= damage;
         }
         if (damage == 5)
         {
-            Arm armChoice = null;
             if (!leftArm.dead && !rightArm.dead)
             {
-                if (UnityEngine.Random.Range(0, 2) == 1)
+                if (UnityEngine.Random.Range(0, 1) == 1)
                 {
                     armChoice = rightArm;
                     //right
@@ -105,13 +99,31 @@ public class PlayerBehaviour : MonoBehaviour
                 armChoice = rightArm;
                 //right goes
             }
-            health -= armChoice.armHealth;
+            else
+            {
+                //This should be replaced with a special position
+                GameEventManager.instance.CleaverHeadChop(transform);
 
+                GameEventManager.instance.GameEnd(false);
+                return;
+            }
+            health -= armChoice.armHealth;
+            armChoice.armHealth = 0;
+            armChoice.dead = true;
+
+            //  GameEventManager.instance.CleaverChopCalled(armChoice);
         }
-        mouseSensitivity = (float)health / 10;
+        StartCoroutine(gameManager.GameWaitTimerArm(0.75f, GameEventManager.instance.CleaverChopCalled, armChoice));
+        if (armChoice.armHealth <= 0)
+        {
+            armChoice.armHealth = 0;
+            armChoice.dead = true;
+        }
+        mouseSensitivity = (float)health / 12;
         if (health == 0) mouseSensitivity = 0.025f;
         if (health < 0)
         {
+            GameEventManager.instance.CleaverHeadChop(transform);
             GameEventManager.instance.GameEnd(false);
             //Debug.Log("PlayerDead");
         }

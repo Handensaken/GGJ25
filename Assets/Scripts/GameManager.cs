@@ -29,17 +29,20 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+       // Application.targetFrameRate = 60;
         CardCount = CardsParent.childCount;
         CardPickTimer = CardTimerValue;
         GameEventManager.instance.OnGameEnd += GameEnd;
         StartCoroutine(GameWaitTimer(5, FlipCardsOnStart));
         StartCoroutine(GameWaitTimer(6, StartGame));
         StartCoroutine(GameWaitTimer(1, FlipCardsOnStart));
+        GameEventManager.instance.OnEnableTimer += EnableTimer;
 
     }
     void OnDisable()
     {
         GameEventManager.instance.OnGameEnd -= GameEnd;
+        GameEventManager.instance.OnEnableTimer -= EnableTimer;
     }
     bool startFlipped = false;
     void FlipCardsOnStart()
@@ -72,7 +75,7 @@ public class GameManager : MonoBehaviour
                 GameEventManager.instance.SetPlayerInputState(false);
                 timerShouldRun = false;
                 StartCoroutine(RefillTimer(1, 100));
-                StartCoroutine(GameWaitTimer(2, EnableTimer));
+             //   StartCoroutine(GameWaitTimer(2, EnableTimer));
                 StartCoroutine(GameWaitTimer(0, DoTimerDamage));
             }
         }
@@ -124,7 +127,7 @@ public class GameManager : MonoBehaviour
         timerShouldRun = false;
 
         StartCoroutine(RefillTimer(1, 100));
-        StartCoroutine(GameWaitTimer(2, EnableTimer));
+        //StartCoroutine(GameWaitTimer(2, EnableTimer));
 
         if (Card01.cardID == Card02.cardID)
         {
@@ -179,7 +182,7 @@ public class GameManager : MonoBehaviour
 
         //resume player input
     }
-    private IEnumerator GameWaitTimer(float t, Action a)
+    public IEnumerator GameWaitTimer(float t, Action a)
     {
         //suspend player input
         yield return new WaitForSeconds(t);
@@ -191,6 +194,13 @@ public class GameManager : MonoBehaviour
         //suspend player input
         yield return new WaitForSeconds(t);
         a(b);
+        //resume player input
+    }
+    public IEnumerator GameWaitTimerArm(float t, Action<Arm> a, Arm arm)
+    {
+        //suspend player input
+        yield return new WaitForSeconds(t);
+        a(arm);
         //resume player input
     }
     private void ResumePlayerInput()

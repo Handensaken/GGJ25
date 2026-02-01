@@ -1,17 +1,9 @@
-Visualisera timer o7 
+dismember
 
-Separera HP till två armar 
+Fix clever orientetation for all fingers
 
-dismember fingrar och armar 
+Look at sound
 
-transition till win eller lose scene o7
+Screenshake 
 
-spawna och shuffla kort o7
-
-Visa kortens uppsida på start, flippa ner  o7
-
-Flippa kort på selection o7
-
-Visa kort stort 
-
-kontrollera spelarens input o7
+Other juice
