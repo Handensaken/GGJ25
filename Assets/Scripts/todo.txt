@@ -6,4 +6,12 @@ Look at sound
 
 Screenshake 
 
+Blood Fix
+
+Lighting
+
+Timer texture
+
 Other juice
+
+Hand positions
